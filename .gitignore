@@ -1,0 +1,61 @@
+# Arquivos de configuração do sistema
+/.idea/
+*.sublime-project
+*.sublime-workspace
+/.phpunit.result.cache
+/.php_cs.cache
+/.php_cs.dist.cache
+/phpstan.neon.dist
+/phpstan.neon.cache
+/.phpstan.result.cache
+/.phpcs-cache
+
+# Dependências
+/vendor/
+/node_modules/
+
+# Arquivos específicos do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Arquivos de build e compilação
+/build/
+/dist/
+*.log
+*.tlog
+*.tmp
+*.temp
+
+# Arquivos e pastas de ambientes virtuais
+.env
+
+# Arquivos de cache
+/cache/
+*.cache
+*.class
+
+# Arquivos de log
+*.log
+*.sql
+*.sqlite
+
+# Pasta de testes que não devem ser incluídas no repositório
+coverage/
+coverage*
+
+# Arquivos de pacotes
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Outros arquivos e pastas
+*.swp
+*~
+._*
+temp/
+tmp/
+.vscode/launch.json
+.vscode/extensions.json
