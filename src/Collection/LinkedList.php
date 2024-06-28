@@ -138,13 +138,13 @@ class LinkedList implements Collection
     }
 
     /**
-    * Clone method to ensure deep copy of nodes
-    */
+     * Clone method to ensure deep copy of nodes.
+     */
     public function __clone()
     {
         $newList = new LinkedList();
         $current = $this->head;
-        while ($current !== null) {
+        while (null !== $current) {
             $newList->add($current->data);
             $current = $current->next;
         }
