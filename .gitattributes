@@ -1,0 +1,17 @@
+/.docker        export-ignore
+/.github        export-ignore
+/.vscode        export-ignore
+/tests          export-ignore
+/vendor         export-ignore
+/.env           export-ignore
+/.env.example   export-ignore
+/.gitignore     export-ignore
+/.php-cs-fixer.php export-ignore
+/.phpcs-cache   export-ignore
+/docker-compose.yml export-ignore
+/phpcs.xml      export-ignore
+/phpinsights.php export-ignore
+/phpstan.neon   export-ignore
+/phpunit.xml    export-ignore
+/psalm.xml      export-ignore
+/Makefile       export-ignore

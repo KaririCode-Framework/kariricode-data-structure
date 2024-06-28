@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  php:
+    container_name: kariricode-contract
+    build:
+      context: .
+      dockerfile: .docker/php/Dockerfile
+      args:
+        PHP_VERSION: ${KARIRICODE_PHP_VERSION}
+    environment:
+      XDEBUG_MODE: coverage
+    volumes:
+      - .:/app
+    working_dir: /app
+    ports:
+      - "${KARIRICODE_PHP_PORT}:9003"

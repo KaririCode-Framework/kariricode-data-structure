@@ -1,0 +1,7 @@
+parameters:
+    level: max
+    paths:
+        - src
+        - tests
+    ignoreErrors:
+        - '#Method .* has parameter \$.* with no value type specified in iterable type array.#'    

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<psalm
+    totallyTyped="true"
+    errorLevel="6"
+    resolveFromConfigFile="true"
+    findUnusedCode="true"
+    findUnusedPsalmSuppress="true"
+    findUnusedBaselineEntry="true"
+>
+    <projectFiles>
+        <directory name="src"/>
+        <directory name="tests"/>
+        <ignoreFiles>
+            <directory name="vendor" />
+            <file name="tests/bootstrap.php" />
+        </ignoreFiles>
+    </projectFiles>
+    <plugins>
+        <pluginClass class="Psalm\SymfonyPsalmPlugin\Plugin"/>
+    </plugins>
+
+    <issueHandlers>
+        <UnusedParam errorLevel="suppress" />
+        <LessSpecificImplementedReturnType errorLevel="suppress"/>
+        <ParentNotFound errorLevel="suppress"/>
+        <UndefinedInterfaceMethod errorLevel="suppress"/>
+        <ArgumentTypeCoercion errorLevel="suppress"/>
+        <PossiblyFalseReference errorLevel="suppress"/>
+        <PossiblyFalseArgument errorLevel="suppress"/>
+        <RiskyTruthyFalsyComparison errorLevel="suppress"/>
+    </issueHandlers>
+</psalm>

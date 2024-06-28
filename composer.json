@@ -1,0 +1,73 @@
+{
+  "name": "kariricode/data-structure",
+  "description": "A component of the KaririCode Framework that provides interface code implementations in PHP for the given namespaces and descriptions, adhering to PSR standards and utilizing modern PHP features.",
+  "keywords": [
+    "Data Structure",
+    "interface",
+    "PSRs",
+    "php",
+    "KaririCode",
+    "framework",
+    "Array",
+    "Linked List",
+    "Stack",
+    "Queue",
+    "Heap",
+    "Tree",
+    "Binary Tree",
+    "Binary Search Tree",
+    "AVL Tree",
+    "Red-Black Tree",
+    "Graph",
+    "Hash Table",
+    "Set",
+    "Map",
+    "Trie"
+  ],
+  "homepage": "https://kariricode.org/",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Walmir Silva",
+      "email": "walmir.silva@kariricode.org"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "KaririCode\\DataStructure\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "KaririCode\\DataStructure\\Tests\\": "tests"
+    }
+  },
+  "require": {
+    "php": "^8.3",
+    "kariricode/contract": "^2.0"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^3.58",
+    "nunomaduro/phpinsights": "^2.11",
+    "phpunit/phpunit": "^10.5",
+    "squizlabs/php_codesniffer": "^3.10",
+    "mockery/mockery": "^1.6",
+    "enlightn/security-checker": "^2.0"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-main": "1.0.x-dev"
+    }
+  },
+  "support": {
+    "issues": "https://github.com/KaririCode-Framework/kariricode-data-structure/issues",
+    "source": "https://github.com/KaririCode-Framework/kariricode-data-structure"
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+  },
+  "minimum-stability": "stable"
+}
