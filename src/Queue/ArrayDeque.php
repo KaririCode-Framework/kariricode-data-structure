@@ -7,19 +7,16 @@ namespace KaririCode\DataStructure\Queue;
 use KaririCode\Contract\DataStructure\Queue;
 
 /**
- * ArrayQueue implementation.
+ * ArrayDeque implementation.
  *
- * This class implements a simple queue using a circular array.
- * It provides amortized O(1) time complexity for enqueue and dequeue operations.
+ * This class implements a double-ended queue using a circular array.
+ * It provides amortized O(1) time complexity for add and remove operations at both ends.
  *
  * @category  Queues
  *
- * @author    Walmir Silva <walmir.silva@kariricode.org>
- * @license   MIT
- *
- * @see       https://kariricode.org/
+ * @implements Queue<mixed>
  */
-class ArrayQueue implements Queue
+class ArrayDeque implements Queue
 {
     private array $elements;
     private int $front = 0;
@@ -58,6 +55,37 @@ class ArrayQueue implements Queue
         return $this->isEmpty() ? null : $this->elements[$this->front];
     }
 
+    public function addFirst(mixed $element): void
+    {
+        $this->ensureCapacity();
+        $this->front = ($this->front - 1 + $this->capacity) % $this->capacity;
+        $this->elements[$this->front] = $element;
+        ++$this->size;
+    }
+
+    public function removeLast(): mixed
+    {
+        if ($this->isEmpty()) {
+            return null;
+        }
+        $index = ($this->front + $this->size - 1) % $this->capacity;
+        $element = $this->elements[$index];
+        $this->elements[$index] = null;
+        --$this->size;
+
+        return $element;
+    }
+
+    public function peekLast(): mixed
+    {
+        if ($this->isEmpty()) {
+            return null;
+        }
+        $index = ($this->front + $this->size - 1) % $this->capacity;
+
+        return $this->elements[$index];
+    }
+
     public function isEmpty(): bool
     {
         return 0 === $this->size;
@@ -69,7 +97,7 @@ class ArrayQueue implements Queue
     }
 
     /**
-     * Ensures that the queue has enough capacity to add a new element.
+     * Ensures that the deque has enough capacity to add a new element.
      */
     private function ensureCapacity(): void
     {
