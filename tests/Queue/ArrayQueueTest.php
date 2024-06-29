@@ -115,4 +115,26 @@ final class ArrayQueueTest extends TestCase
         $this->assertSame(3, $queue->dequeue());
         $this->assertSame(4, $queue->peek());
     }
+
+    // Test clearing the queue
+    public function testClearEmptiesTheQueue(): void
+    {
+        $queue = new ArrayQueue();
+        $queue->enqueue(1);
+        $queue->enqueue(2);
+        $queue->clear();
+        $this->assertTrue($queue->isEmpty());
+        $this->assertNull($queue->peek());
+        $this->assertNull($queue->dequeue());
+    }
+
+    // Test getting all items
+    public function testGetItemsReturnsAllElementsInCorrectOrder(): void
+    {
+        $queue = new ArrayQueue();
+        $queue->enqueue(1);
+        $queue->enqueue(2);
+        $queue->enqueue(3);
+        $this->assertSame([1, 2, 3], $queue->getItems());
+    }
 }
