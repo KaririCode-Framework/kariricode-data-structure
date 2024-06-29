@@ -172,4 +172,69 @@ final class ArrayDequeTest extends TestCase
         $this->assertSame(1, $deque->dequeue());
         $this->assertSame(3, $deque->peekLast());
     }
+
+    // Test capacity expansion during addFirst operations
+    public function testEnsureCapacityExpandsDuringAddFirstOperations(): void
+    {
+        $deque = new ArrayDeque(2);
+        $deque->addFirst(1);
+        $deque->addFirst(2);
+        $deque->addFirst(3); // Should trigger capacity increase
+        $this->assertSame(3, $deque->size());
+        $this->assertSame(3, $deque->peek());
+        $this->assertSame(1, $deque->peekLast());
+    }
+
+    // Test capacity expansion during removeLast operations
+    public function testEnsureCapacityExpandsDuringRemoveLastOperations(): void
+    {
+        $deque = new ArrayDeque(2);
+        $deque->enqueue(1);
+        $deque->enqueue(2);
+        $deque->enqueue(3); // Should trigger capacity increase
+        $deque->removeLast();
+        $deque->removeLast();
+        $this->assertSame(1, $deque->size());
+        $this->assertSame(1, $deque->peek());
+    }
+
+    // Test mixed operations of addFirst, addLast, removeFirst, and removeLast
+    public function testMixedOperations(): void
+    {
+        $deque = new ArrayDeque();
+        $deque->addFirst(1);
+        $deque->enqueue(2);
+        $deque->addFirst(0);
+        $this->assertSame(0, $deque->dequeue());
+        $this->assertSame(1, $deque->dequeue());
+        $this->assertSame(2, $deque->removeLast());
+        $deque->enqueue(3);
+        $deque->addFirst(4);
+        $this->assertSame(4, $deque->peek());
+        $this->assertSame(3, $deque->peekLast());
+    }
+
+    // Test clearing the deque
+    public function testClearEmptiesTheDeque(): void
+    {
+        $deque = new ArrayDeque();
+        $deque->enqueue(1);
+        $deque->enqueue(2);
+        $deque->clear();
+        $this->assertTrue($deque->isEmpty());
+        $this->assertNull($deque->peek());
+        $this->assertNull($deque->peekLast());
+        $this->assertNull($deque->dequeue());
+        $this->assertNull($deque->removeLast());
+    }
+
+    // Test getting all items
+    public function testGetItemsReturnsAllElementsInCorrectOrder(): void
+    {
+        $deque = new ArrayDeque();
+        $deque->enqueue(1);
+        $deque->enqueue(2);
+        $deque->enqueue(3);
+        $this->assertSame([1, 2, 3], $deque->getItems());
+    }
 }
