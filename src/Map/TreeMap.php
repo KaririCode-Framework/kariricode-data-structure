@@ -23,6 +23,7 @@ use KaririCode\DataStructure\TreeMapNode;
 class TreeMap implements Map
 {
     private ?TreeMapNode $root = null;
+    private int $size = 0;
 
     public function put(mixed $key, mixed $value): void
     {
@@ -30,6 +31,7 @@ class TreeMap implements Map
         if (null === $this->root) {
             $this->root = $newNode;
             $this->root->setBlack();
+            $this->size++;
         } else {
             $this->insertNode($newNode);
             $this->balanceAfterInsertion($newNode);
@@ -48,8 +50,14 @@ class TreeMap implements Map
             return false;
         }
         $this->deleteNode($node);
+        $this->size--;
 
         return true;
+    }
+
+    public function size(): int
+    {
+        return $this->size;
     }
 
     private function insertNode(TreeMapNode $newNode): void
@@ -76,6 +84,8 @@ class TreeMap implements Map
         } else {
             $parent->right = $newNode;
         }
+
+        $this->size++;
         $this->balanceAfterInsertion($newNode);
     }
 

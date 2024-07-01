@@ -137,6 +137,28 @@ final class TreeMapTest extends TestCase
         $this->assertStringContainsString('15:fifteen [RED]', $treeStructure);
     }
 
+    // test size
+    public function testSize(): void
+    {
+        $this->assertSame(0, $this->treeMap->size(), 'Initial size should be 0');
+
+        $this->treeMap->put(1, 'one');
+        $this->assertSame(1, $this->treeMap->size(), 'Size should be 1 after adding one element');
+
+        $this->treeMap->put(2, 'two');
+        $this->assertSame(2, $this->treeMap->size(), 'Size should be 2 after adding another element');
+
+        $this->treeMap->put(1, 'one updated');
+        $this->assertSame(2, $this->treeMap->size(), 'Size should remain 2 after updating an existing element');
+
+        $this->treeMap->remove(1);
+        $this->assertSame(1, $this->treeMap->size(), 'Size should be 1 after removing one element');
+
+        $this->treeMap->remove(2);
+        $this->assertSame(0, $this->treeMap->size(), 'Size should be 0 after removing all elements');
+    }
+
+
     // Test complex operations on the tree.
     public function testComplexOperations(): void
     {
