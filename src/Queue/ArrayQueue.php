@@ -19,7 +19,6 @@ use KaririCode\Contract\DataStructure\Queue;
  *
  * @see       https://kariricode.org/
  */
-
 class ArrayQueue extends CircularArrayQueue implements Queue
 {
     // No additional methods required, uses methods from CircularArrayQueue

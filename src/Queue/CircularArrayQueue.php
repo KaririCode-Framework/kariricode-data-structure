@@ -33,7 +33,7 @@ abstract class CircularArrayQueue implements Queue
 
     public function isEmpty(): bool
     {
-        return $this->size === 0;
+        return 0 === $this->size;
     }
 
     public function size(): int
@@ -94,6 +94,7 @@ abstract class CircularArrayQueue implements Queue
         for ($i = 0; $i < $this->size; ++$i) {
             $items[] = $this->elements[($this->front + $i) % $this->capacity];
         }
+
         return $items;
     }
 }
