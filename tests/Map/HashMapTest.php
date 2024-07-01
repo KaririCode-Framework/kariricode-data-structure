@@ -9,6 +9,14 @@ use PHPUnit\Framework\TestCase;
 
 final class HashMapTest extends TestCase
 {
+    private HashMap $hashMap;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->hashMap = new HashMap();
+    }
+
     // Test adding a key-value pair to the map
     public function testPutAddsKeyValuePairToMap(): void
     {
@@ -103,5 +111,26 @@ final class HashMapTest extends TestCase
         $map->put('key1', 'value1');
         $map->put('key1', 'value2');
         $this->assertSame('value2', $map->get('key1'));
+    }
+
+    // Test for the getIterator method
+    public function testGetIterator(): void
+    {
+        $this->hashMap->put(1, 'one');
+        $this->hashMap->put(2, 'two');
+        $this->hashMap->put(3, 'three');
+
+        $items = [];
+        foreach ($this->hashMap as $key => $value) {
+            $items[$key] = $value;
+        }
+
+        $expectedItems = [
+            1 => 'one',
+            2 => 'two',
+            3 => 'three',
+        ];
+
+        $this->assertSame($expectedItems, $items);
     }
 }

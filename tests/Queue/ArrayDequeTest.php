@@ -9,6 +9,18 @@ use PHPUnit\Framework\TestCase;
 
 final class ArrayDequeTest extends TestCase
 {
+    // Teste adicionar elementos com add
+    public function testAddAddsElementToEndOfDeque(): void
+    {
+        $deque = new ArrayDeque();
+        $deque->add(1);
+        $deque->add(2);
+        $deque->add(3);
+
+        $this->assertSame(1, $deque->peek());
+        $this->assertSame([1, 2, 3], $deque->getItems());
+    }
+
     // Test enqueuing elements
     public function testEnqueueAddsElementToEndOfDeque(): void
     {
@@ -230,6 +242,28 @@ final class ArrayDequeTest extends TestCase
 
     // Test getting all items
     public function testGetItemsReturnsAllElementsInCorrectOrder(): void
+    {
+        $deque = new ArrayDeque();
+        $deque->enqueue(1);
+        $deque->enqueue(2);
+        $deque->enqueue(3);
+        $this->assertSame([1, 2, 3], $deque->getItems());
+    }
+
+    // Test remove method
+    public function testRemove(): void
+    {
+        $deque = new ArrayDeque();
+        $deque->enqueue(1);
+        $deque->enqueue(2);
+        $deque->enqueue(3);
+        $this->assertTrue($deque->remove(2));
+        $this->assertFalse($deque->remove(4));
+        $this->assertSame([1, 3], $deque->getItems());
+    }
+
+    // Test getItems method
+    public function testGetItems(): void
     {
         $deque = new ArrayDeque();
         $deque->enqueue(1);

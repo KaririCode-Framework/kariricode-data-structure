@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "kariricode/contract",
-            "version": "v2.2.0",
+            "version": "v2.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/KaririCode-Framework/kariricode-contract.git",
-                "reference": "18ebb48f242471d8987cd64d44206910a0ab58ad"
+                "reference": "619c2f472a874a59b118460d7ac55e4eaa07b636"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KaririCode-Framework/kariricode-contract/zipball/18ebb48f242471d8987cd64d44206910a0ab58ad",
-                "reference": "18ebb48f242471d8987cd64d44206910a0ab58ad",
+                "url": "https://api.github.com/repos/KaririCode-Framework/kariricode-contract/zipball/619c2f472a874a59b118460d7ac55e4eaa07b636",
+                "reference": "619c2f472a874a59b118460d7ac55e4eaa07b636",
                 "shasum": ""
             },
             "require": {
@@ -66,7 +66,7 @@
                 "issues": "https://github.com/KaririCode-Framework/kariricode-contract/issues",
                 "source": "https://github.com/KaririCode-Framework/kariricode-contract"
             },
-            "time": "2024-07-01T15:18:41+00:00"
+            "time": "2024-07-01T21:51:33+00:00"
         }
     ],
     "packages-dev": [
@@ -1445,16 +1445,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v5.0.2",
+            "version": "v5.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "139676794dc1e9231bf7bcd123cfc0c99182cb13"
+                "reference": "683130c2ff8c2739f4822ff7ac5c873ec529abd1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/139676794dc1e9231bf7bcd123cfc0c99182cb13",
-                "reference": "139676794dc1e9231bf7bcd123cfc0c99182cb13",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/683130c2ff8c2739f4822ff7ac5c873ec529abd1",
+                "reference": "683130c2ff8c2739f4822ff7ac5c873ec529abd1",
                 "shasum": ""
             },
             "require": {
@@ -1465,7 +1465,7 @@
             },
             "require-dev": {
                 "ircmaxell/php-yacc": "^0.0.7",
-                "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0"
+                "phpunit/phpunit": "^9.0"
             },
             "bin": [
                 "bin/php-parse"
@@ -1497,9 +1497,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v5.0.2"
+                "source": "https://github.com/nikic/PHP-Parser/tree/v5.1.0"
             },
-            "time": "2024-03-05T20:51:40+00:00"
+            "time": "2024-07-01T20:03:41+00:00"
         },
         {
             "name": "nunomaduro/phpinsights",

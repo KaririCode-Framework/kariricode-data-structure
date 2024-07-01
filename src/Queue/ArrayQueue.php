@@ -21,5 +21,8 @@ use KaririCode\Contract\DataStructure\Queue;
  */
 class ArrayQueue extends CircularArrayQueue implements Queue
 {
-    // No additional methods required, uses methods from CircularArrayQueue
+    public function add(mixed $element): void
+    {
+        $this->enqueue($element);
+    }
 }

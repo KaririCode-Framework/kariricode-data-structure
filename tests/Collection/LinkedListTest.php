@@ -87,11 +87,11 @@ final class LinkedListTest extends TestCase
     public function testCountElementsReturnsNumberOfElementsInList(): void
     {
         $list = new LinkedList();
-        $this->assertSame(0, $list->count());
+        $this->assertSame(0, $list->size());
 
         $list->add(1);
         $list->add(2);
-        $this->assertSame(2, $list->count());
+        $this->assertSame(2, $list->size());
     }
 
     // Test getting an element by its index
@@ -164,7 +164,7 @@ final class LinkedListTest extends TestCase
             $list->add($i);
         }
 
-        $this->assertSame(1000, $list->count());
+        $this->assertSame(1000, $list->size());
 
         for ($i = 0; $i < 1000; ++$i) {
             $list->remove($i);
