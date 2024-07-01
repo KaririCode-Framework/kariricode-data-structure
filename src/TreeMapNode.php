@@ -4,6 +4,19 @@ declare(strict_types=1);
 
 namespace KaririCode\DataStructure;
 
+/**
+ * TreeMapNode class.
+ *
+ * This class represents a node in a Red-Black Tree used by TreeMap.
+ * Each node contains a key, a value, a color (red or black), and references to its left, right, and parent nodes.
+ *
+ * @category  Data Structures
+ *
+ * @author    Walmir Silva <walmir.silva@kariricode.org>
+ * @license   MIT
+ *
+ * @see       https://kariricode.org/
+ */
 class TreeMapNode
 {
     public const RED = true;

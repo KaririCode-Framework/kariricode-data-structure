@@ -147,7 +147,7 @@ final class TreeMapTest extends TestCase
             [1, 'one'],
             [3, 'three'],
             [6, 'six'],
-            [8, 'eight']
+            [8, 'eight'],
         ];
 
         foreach ($operations as [$key, $value]) {
@@ -297,6 +297,7 @@ final class TreeMapTest extends TestCase
         $reflection = new \ReflectionClass($this->treeMap);
         $rootProperty = $reflection->getProperty('root');
         $rootProperty->setAccessible(true);
+
         return $rootProperty->getValue($this->treeMap);
     }
 
@@ -314,9 +315,10 @@ final class TreeMapTest extends TestCase
     // Recursive method to count nodes in the tree.
     private function countNodesRecursive(?TreeMapNode $node): int
     {
-        if ($node === null) {
+        if (null === $node) {
             return 0;
         }
+
         return 1 + $this->countNodesRecursive($node->left) + $this->countNodesRecursive($node->right);
     }
 
@@ -334,13 +336,13 @@ final class TreeMapTest extends TestCase
     // Recursive method to print the tree structure.
     private function printTree(?TreeMapNode $node, string $prefix = '', bool $isLeft = true): string
     {
-        if ($node === null) {
+        if (null === $node) {
             return '';
         }
 
         $result = $prefix;
 
-        if ($prefix === '') {
+        if ('' === $prefix) {
             $result .= '├── ';
         } else {
             $result .= $isLeft ? '├── ' : '└── ';
