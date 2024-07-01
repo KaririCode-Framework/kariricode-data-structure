@@ -15,9 +15,11 @@ use KaririCode\Contract\DataStructure\Queue;
  *
  * @category  Queues
  *
- * @implements Queue<mixed>
+ * @author    Walmir Silva <walmir.silva@kariricode.org>
+ * @license   MIT
+ *
+ * @see       https://kariricode.org/
  */
-
 class ArrayDeque extends CircularArrayQueue implements Deque
 {
     public function addFirst(mixed $element): void
