@@ -137,6 +137,43 @@ final class TreeMapTest extends TestCase
         $this->assertStringContainsString('15:fifteen [RED]', $treeStructure);
     }
 
+    // test size
+    public function testSize(): void
+    {
+        $this->assertSame(0, $this->treeMap->size(), 'Initial size should be 0');
+
+        $this->treeMap->put(1, 'one');
+        $this->assertSame(1, $this->treeMap->size(), 'Size should be 1 after adding one element');
+
+        $this->treeMap->put(2, 'two');
+        $this->assertSame(2, $this->treeMap->size(), 'Size should be 2 after adding another element');
+
+        $this->treeMap->put(1, 'one updated');
+        $this->assertSame(2, $this->treeMap->size(), 'Size should remain 2 after updating an existing element');
+
+        $this->treeMap->remove(1);
+        $this->assertSame(1, $this->treeMap->size(), 'Size should be 1 after removing one element');
+
+        $this->treeMap->remove(2);
+        $this->assertSame(0, $this->treeMap->size(), 'Size should be 0 after removing all elements');
+    }
+
+    // Test getting all items from the TreeMap
+    public function testGetItems(): void
+    {
+        $this->treeMap->put(10, 'ten');
+        $this->treeMap->put(5, 'five');
+        $this->treeMap->put(20, 'twenty');
+
+        $expectedItems = [
+            5 => 'five',
+            10 => 'ten',
+            20 => 'twenty',
+        ];
+
+        $this->assertSame($expectedItems, $this->treeMap->getItems());
+    }
+
     // Test complex operations on the tree.
     public function testComplexOperations(): void
     {
@@ -289,6 +326,73 @@ final class TreeMapTest extends TestCase
         $this->assertSame($node, $newRoot);
         $this->assertTrue($newRoot->isBlack());
         $this->assertNull($newRoot->parent);
+    }
+
+    // Teste para verificar a existência de uma chave.
+    public function testContainsKey(): void
+    {
+        $this->treeMap->put(10, 'ten');
+        $this->treeMap->put(20, 'twenty');
+        $this->assertTrue($this->treeMap->containsKey(10));
+        $this->assertTrue($this->treeMap->containsKey(20));
+        $this->assertFalse($this->treeMap->containsKey(30));
+    }
+
+    // Teste para obter todas as chaves do mapa.
+    public function testKeys(): void
+    {
+        $this->treeMap->put(10, 'ten');
+        $this->treeMap->put(5, 'five');
+        $this->treeMap->put(20, 'twenty');
+
+        $expectedKeys = [5, 10, 20];
+        $this->assertSame($expectedKeys, $this->treeMap->keys());
+    }
+
+    // Teste para obter todos os valores do mapa.
+    public function testValues(): void
+    {
+        $this->treeMap->put(10, 'ten');
+        $this->treeMap->put(5, 'five');
+        $this->treeMap->put(20, 'twenty');
+
+        $expectedValues = ['five', 'ten', 'twenty'];
+        $this->assertSame($expectedValues, $this->treeMap->values());
+    }
+
+    // Teste para limpar o mapa.
+    public function testClear(): void
+    {
+        $this->treeMap->put(10, 'ten');
+        $this->treeMap->put(5, 'five');
+        $this->treeMap->put(20, 'twenty');
+
+        $this->treeMap->clear();
+        $this->assertSame(0, $this->treeMap->size());
+        $this->assertNull($this->treeMap->get(10));
+        $this->assertNull($this->treeMap->get(5));
+        $this->assertNull($this->treeMap->get(20));
+    }
+
+    // Teste para obter o iterador.
+    public function testGetIterator(): void
+    {
+        $this->treeMap->put(10, 'ten');
+        $this->treeMap->put(5, 'five');
+        $this->treeMap->put(20, 'twenty');
+
+        $items = [];
+        foreach ($this->treeMap as $key => $value) {
+            $items[$key] = $value;
+        }
+
+        $expectedItems = [
+            5 => 'five',
+            10 => 'ten',
+            20 => 'twenty',
+        ];
+
+        $this->assertSame($expectedItems, $items);
     }
 
     // Helper method to get the root node of the tree.

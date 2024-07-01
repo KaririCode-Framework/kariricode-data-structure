@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace KaririCode\DataStructure\Map;
 
+use KaririCode\Contract\DataStructure\Behavioral\IterableCollection;
 use KaririCode\Contract\DataStructure\Map;
 
 /**
@@ -19,7 +20,7 @@ use KaririCode\Contract\DataStructure\Map;
  *
  * @see       https://kariricode.org/
  */
-class HashMap implements Map
+class HashMap implements Map, IterableCollection, \IteratorAggregate
 {
     private array $map = [];
 
@@ -67,5 +68,10 @@ class HashMap implements Map
     public function values(): array
     {
         return array_values($this->map);
+    }
+
+    public function getIterator(): \Iterator
+    {
+        return new \ArrayIterator($this->map);
     }
 }

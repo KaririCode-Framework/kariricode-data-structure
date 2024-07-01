@@ -88,6 +88,16 @@ abstract class CircularArrayQueue implements Queue
         ++$this->size;
     }
 
+    public function addLast(mixed $element): void
+    {
+        $this->enqueue($element);
+    }
+
+    public function removeFirst(): mixed
+    {
+        return $this->dequeue();
+    }
+
     public function getItems(): array
     {
         $items = [];
@@ -96,5 +106,24 @@ abstract class CircularArrayQueue implements Queue
         }
 
         return $items;
+    }
+
+    public function remove(mixed $element): bool
+    {
+        for ($i = 0; $i < $this->size; ++$i) {
+            $index = ($this->front + $i) % $this->capacity;
+            if ($this->elements[$index] === $element) {
+                // Shift elements to the left to fill the gap
+                for ($j = $index; $j !== ($this->front + $this->size - 1) % $this->capacity; $j = ($j + 1) % $this->capacity) {
+                    $this->elements[$j] = $this->elements[($j + 1) % $this->capacity];
+                }
+                $this->elements[($this->front + $this->size - 1) % $this->capacity] = null;
+                --$this->size;
+
+                return true;
+            }
+        }
+
+        return false;
     }
 }

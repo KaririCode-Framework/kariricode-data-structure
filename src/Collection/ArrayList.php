@@ -49,17 +49,14 @@ class ArrayList implements Collection
 
     public function contains(mixed $element): bool
     {
-        return in_array($element, $this->elements, true);
+        return null !== $this->find($element);
     }
 
-    public function clear(): void
+    public function find(mixed $element): ?int
     {
-        $this->elements = [];
-    }
+        $index = array_search($element, $this->elements, true);
 
-    public function isEmpty(): bool
-    {
-        return empty($this->elements);
+        return false !== $index ? $index : null;
     }
 
     public function getItems(): array
@@ -67,7 +64,12 @@ class ArrayList implements Collection
         return $this->elements;
     }
 
-    public function count(): int
+    public function clear(): void
+    {
+        $this->elements = [];
+    }
+
+    public function size(): int
     {
         return count($this->elements);
     }

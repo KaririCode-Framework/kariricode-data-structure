@@ -59,7 +59,7 @@ final class ArrayListTest extends TestCase
         $list->add(1);
         $list->clear();
 
-        $this->assertTrue($list->isEmpty());
+        $this->assertTrue($list->size() <= 0);
         $this->assertSame([], $list->getItems());
     }
 
@@ -67,10 +67,10 @@ final class ArrayListTest extends TestCase
     public function testIsEmptyReturnsTrueIfListIsEmpty(): void
     {
         $list = new ArrayList();
-        $this->assertTrue($list->isEmpty());
+        $this->assertTrue($list->size() <= 0);
 
         $list->add(1);
-        $this->assertFalse($list->isEmpty());
+        $this->assertFalse($list->size() <= 0);
     }
 
     // Test getting all items from the list
@@ -87,11 +87,11 @@ final class ArrayListTest extends TestCase
     public function testCountElementsReturnsNumberOfElementsInList(): void
     {
         $list = new ArrayList();
-        $this->assertSame(0, $list->count());
+        $this->assertSame(0, $list->size());
 
         $list->add(1);
         $list->add(2);
-        $this->assertSame(2, $list->count());
+        $this->assertSame(2, $list->size());
     }
 
     // Test getting an element by its index
@@ -164,13 +164,13 @@ final class ArrayListTest extends TestCase
             $list->add($i);
         }
 
-        $this->assertSame(1000, $list->count());
+        $this->assertSame(1000, $list->size());
 
         for ($i = 0; $i < 1000; ++$i) {
             $list->remove($i);
         }
 
-        $this->assertTrue($list->isEmpty());
+        $this->assertTrue($list->size() <= 0);
     }
 
     // Test index consistency after removing an element

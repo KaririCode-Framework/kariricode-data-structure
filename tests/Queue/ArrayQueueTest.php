@@ -9,6 +9,37 @@ use PHPUnit\Framework\TestCase;
 
 final class ArrayQueueTest extends TestCase
 {
+    private ArrayQueue $queue;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->queue = new ArrayQueue();
+    }
+
+    // Test adding elements to the queue
+    public function testAdd(): void
+    {
+        $this->queue->add(1);
+        $this->queue->add(2);
+        $this->queue->add(3);
+
+        $this->assertSame(1, $this->queue->peek());
+        $this->assertSame([1, 2, 3], $this->queue->getItems());
+    }
+
+    // Test removing elements from the queue
+    public function testRemoveFirst(): void
+    {
+        $this->queue->add(1);
+        $this->queue->add(2);
+        $this->queue->add(3);
+
+        $this->assertSame(1, $this->queue->removeFirst());
+        $this->assertSame(2, $this->queue->peek());
+        $this->assertSame([2, 3], $this->queue->getItems());
+    }
+
     // Test enqueuing elements
     public function testEnqueueAddsElementToEndOfQueue(): void
     {
@@ -130,6 +161,28 @@ final class ArrayQueueTest extends TestCase
 
     // Test getting all items
     public function testGetItemsReturnsAllElementsInCorrectOrder(): void
+    {
+        $queue = new ArrayQueue();
+        $queue->enqueue(1);
+        $queue->enqueue(2);
+        $queue->enqueue(3);
+        $this->assertSame([1, 2, 3], $queue->getItems());
+    }
+
+    // Test remove method
+    public function testRemove(): void
+    {
+        $queue = new ArrayQueue();
+        $queue->enqueue(1);
+        $queue->enqueue(2);
+        $queue->enqueue(3);
+        $this->assertTrue($queue->remove(2));
+        $this->assertFalse($queue->remove(4));
+        $this->assertSame([1, 3], $queue->getItems());
+    }
+
+    // Test getItems method
+    public function testGetItems(): void
     {
         $queue = new ArrayQueue();
         $queue->enqueue(1);

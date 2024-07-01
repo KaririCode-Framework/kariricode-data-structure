@@ -72,15 +72,20 @@ class LinkedList implements Collection
 
     public function contains(mixed $element): bool
     {
+        return null !== $this->find($element);
+    }
+
+    public function find(mixed $element): ?Node
+    {
         $current = $this->head;
         while (null !== $current) {
             if ($current->data === $element) {
-                return true;
+                return $current;
             }
             $current = $current->next;
         }
 
-        return false;
+        return null;
     }
 
     public function clear(): void
@@ -107,7 +112,7 @@ class LinkedList implements Collection
         return $items;
     }
 
-    public function count(): int
+    public function size(): int
     {
         return $this->size;
     }

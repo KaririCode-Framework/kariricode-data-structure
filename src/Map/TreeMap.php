@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace KaririCode\DataStructure\Map;
 
+use KaririCode\Contract\DataStructure\Behavioral\IterableCollection;
 use KaririCode\Contract\DataStructure\Map;
 use KaririCode\DataStructure\TreeMapNode;
 
@@ -20,9 +21,10 @@ use KaririCode\DataStructure\TreeMapNode;
  *
  * @see       https://kariricode.org/
  */
-class TreeMap implements Map
+class TreeMap implements Map, IterableCollection, \IteratorAggregate
 {
     private ?TreeMapNode $root = null;
+    private int $size = 0;
 
     public function put(mixed $key, mixed $value): void
     {
@@ -30,6 +32,7 @@ class TreeMap implements Map
         if (null === $this->root) {
             $this->root = $newNode;
             $this->root->setBlack();
+            ++$this->size;
         } else {
             $this->insertNode($newNode);
             $this->balanceAfterInsertion($newNode);
@@ -41,6 +44,22 @@ class TreeMap implements Map
         return $this->findNode($key)?->value;
     }
 
+    public function keys(): array
+    {
+        $keys = [];
+        $this->inOrderTraversalKeys($this->root, $keys);
+
+        return $keys;
+    }
+
+    public function values(): array
+    {
+        $values = [];
+        $this->inOrderTraversalValues($this->root, $values);
+
+        return $values;
+    }
+
     public function remove(mixed $key): bool
     {
         $node = $this->findNode($key);
@@ -48,8 +67,65 @@ class TreeMap implements Map
             return false;
         }
         $this->deleteNode($node);
+        --$this->size;
 
         return true;
+    }
+
+    public function size(): int
+    {
+        return $this->size;
+    }
+
+    public function clear(): void
+    {
+        $this->root = null;
+        $this->size = 0;
+    }
+
+    public function containsKey(mixed $key): bool
+    {
+        return null !== $this->findNode($key);
+    }
+
+    public function getItems(): array
+    {
+        $items = [];
+        $this->inOrderTraversal($this->root, $items);
+
+        return $items;
+    }
+
+    public function getIterator(): \Iterator
+    {
+        return new \ArrayIterator($this->getItems());
+    }
+
+    private function inOrderTraversalKeys(?TreeMapNode $node, array &$keys): void
+    {
+        if (null !== $node) {
+            $this->inOrderTraversalKeys($node->left, $keys);
+            $keys[] = $node->key;
+            $this->inOrderTraversalKeys($node->right, $keys);
+        }
+    }
+
+    private function inOrderTraversalValues(?TreeMapNode $node, array &$values): void
+    {
+        if (null !== $node) {
+            $this->inOrderTraversalValues($node->left, $values);
+            $values[] = $node->value;
+            $this->inOrderTraversalValues($node->right, $values);
+        }
+    }
+
+    private function inOrderTraversal(?TreeMapNode $node, array &$items): void
+    {
+        if (null !== $node) {
+            $this->inOrderTraversal($node->left, $items);
+            $items[$node->key] = $node->value;
+            $this->inOrderTraversal($node->right, $items);
+        }
     }
 
     private function insertNode(TreeMapNode $newNode): void
@@ -76,6 +152,8 @@ class TreeMap implements Map
         } else {
             $parent->right = $newNode;
         }
+
+        ++$this->size;
         $this->balanceAfterInsertion($newNode);
     }
 

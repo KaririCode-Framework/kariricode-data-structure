@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace KaririCode\DataStructure\Queue;
 
 use KaririCode\Contract\DataStructure\Deque;
-use KaririCode\Contract\DataStructure\Queue;
 
 /**
  * ArrayDeque implementation.
@@ -51,5 +50,10 @@ class ArrayDeque extends CircularArrayQueue implements Deque
         $index = ($this->front + $this->size - 1) % $this->capacity;
 
         return $this->elements[$index];
+    }
+
+    public function add(mixed $element): void
+    {
+        $this->addLast($element);
     }
 }
