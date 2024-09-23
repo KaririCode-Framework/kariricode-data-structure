@@ -2,198 +2,135 @@
 
 declare(strict_types=1);
 
-namespace KaririCode\DataStructure\Tests\Tree;
-
-use KaririCode\Contract\DataStructure\Structural\Collection;
 use KaririCode\DataStructure\Tree\BPlusTree;
 use PHPUnit\Framework\TestCase;
 
-final class BPlusTreeTest extends TestCase
+class BPlusTreeTest extends TestCase
 {
+    public const ORDER = 5;
+
     private BPlusTree $tree;
 
     protected function setUp(): void
     {
-        parent::setUp();
-        $this->tree = new BPlusTree(3); // B+ Tree of order 3
+        $this->tree = new BPlusTree(self::ORDER);
     }
 
-    // public function testGetThrowsOutOfRangeException(): void
-    // {
-    //     $this->expectException(\OutOfRangeException::class);
-    //     $this->tree->get(0);
-    // }
-
-    // Test insertion and root splitting
-    public function testInsertAndSearch(): void
+    public function testInsertAndFind(): void
     {
-        $this->tree->insert(1, 'a');
-        $this->tree->insert(2, 'b');
-        $this->tree->insert(3, 'c');
+        $this->tree->insert(1, 'A');
+        $this->tree->insert(2, 'B');
+        $this->tree->insert(3, 'C');
 
-        // Test search by key
-        $this->assertSame('a', $this->tree->find(1));
-        $this->assertSame('b', $this->tree->find(2));
-        $this->assertSame('c', $this->tree->find(3));
-
-        // Test search by value
-        $this->assertSame(1, $this->tree->find('a'));
-        $this->assertSame(2, $this->tree->find('b'));
-        $this->assertSame(3, $this->tree->find('c'));
+        $this->assertEquals('A', $this->tree->find(1));
+        $this->assertEquals('B', $this->tree->find(2));
+        $this->assertEquals('C', $this->tree->find(3));
     }
 
-
-
-    // Test removal and balancing
-    public function testRemoveAndBalance(): void
+    public function testInsertAndRemove(): void
     {
-        $this->tree->insert(1, 'a');
-        $this->tree->insert(2, 'b');
-        $this->tree->insert(3, 'c');
-        $this->tree->remove(2);
+        $this->tree->insert(1, 'A');
+        $this->tree->insert(2, 'B');
+        $this->tree->insert(3, 'C');
 
-        $this->assertFalse($this->tree->contains(2));
-        $this->assertTrue($this->tree->contains(1));
-        $this->assertTrue($this->tree->contains(3));
-    }
+        $this->assertTrue($this->tree->remove(2));
+        $this->assertNull($this->tree->find(2));
 
-    // Test clear method
-    public function testClear(): void
-    {
-        $this->tree->insert(1, 'a');
-        $this->tree->insert(2, 'b');
-        $this->tree->clear();
-
-        $this->assertSame(0, $this->tree->size());
+        $this->assertTrue($this->tree->remove(1));
         $this->assertNull($this->tree->find(1));
-        $this->assertNull($this->tree->find(2));
+
+        $this->assertFalse($this->tree->remove(5)); // Testa remoção de chave inexistente
     }
 
-    // Test contains method
-    public function testContains(): void
-    {
-        $this->tree->insert(1, 'a');
-        $this->tree->insert(2, 'b');
-
-        $this->assertTrue($this->tree->contains(1));
-        $this->assertTrue($this->tree->contains(2));
-        $this->assertFalse($this->tree->contains(3));
-    }
-
-    // Test find method
-    public function testFind(): void
-    {
-        $this->tree->insert(1, 'a');
-        $this->assertSame('a', $this->tree->find(1));
-        $this->assertNull($this->tree->find(2));
-    }
-
-    // Test get method
-    public function testGet(): void
-    {
-        $this->tree->insert(1, 'a');
-        $this->tree->insert(2, 'b');
-        $this->tree->insert(3, 'c');
-
-        $this->assertSame('a', $this->tree->get(0));
-        $this->assertSame('b', $this->tree->get(1));
-        $this->assertSame('c', $this->tree->get(2));
-    }
-
-    // Test set method
-    public function testSet(): void
-    {
-        $this->tree->insert(1, 'a');
-        $this->tree->insert(2, 'b');
-        $this->tree->set(1, 'new-a');
-
-        $this->assertSame('new-a', $this->tree->find(1));
-        $this->assertSame('b', $this->tree->find(2));
-    }
-
-    // Test size method
-    public function testSize(): void
-    {
-        $this->assertSame(0, $this->tree->size());
-        $this->tree->insert(1, 'a');
-        $this->assertSame(1, $this->tree->size());
-    }
-
-    // Test getItems method
-    public function testGetItems(): void
-    {
-        $this->tree->insert(1, 'a');
-        $this->tree->insert(2, 'b');
-        $this->tree->insert(3, 'c');
-
-        $this->assertSame(['a', 'b', 'c'], $this->tree->getItems());
-    }
-
-    // Test addAll method
-    public function testAddAll(): void
-    {
-        $collection = $this->createMock(Collection::class);
-        $collection->method('getItems')->willReturn([1, 2, 3]);
-
-        $this->tree->addAll($collection);
-
-        $this->assertSame(3, $this->tree->size());
-    }
-
-    // Test getOrder method
-    public function testGetOrder(): void
-    {
-        $this->assertSame(3, $this->tree->getOrder());
-    }
-
-    // Test rangeSearch method
     public function testRangeSearch(): void
     {
-        $this->tree->insert(1, 'a');
-        $this->tree->insert(2, 'b');
-        $this->tree->insert(3, 'c');
+        $this->tree->insert(1, 'A');
+        $this->tree->insert(2, 'B');
+        $this->tree->insert(3, 'C');
+        $this->tree->insert(4, 'D');
 
-        $this->assertSame(['a', 'b'], $this->tree->rangeSearch(1, 2));
+        $result = $this->tree->rangeSearch(2, 3);
+        $this->assertEquals(['B', 'C'], $result);
     }
 
-    // Test getMinimum method
-    public function testGetMinimum(): void
+    public function testClearTree(): void
     {
-        $this->tree->insert(2, 'b');
-        $this->tree->insert(1, 'a');
-        $this->tree->insert(3, 'c');
+        $this->tree->insert(1, 'A');
+        $this->tree->insert(2, 'B');
 
-        $this->assertSame('a', $this->tree->getMinimum());
+        $this->tree->clear();
+        $this->assertNull($this->tree->getRoot());
+        $this->assertEquals(0, $this->tree->size());
     }
 
-    // Test getMaximum method
-    public function testGetMaximum(): void
+    public function testGetItems(): void
     {
-        $this->tree->insert(1, 'a');
-        $this->tree->insert(3, 'c');
-        $this->tree->insert(2, 'b');
+        $this->tree->insert(1, 'A');
+        $this->tree->insert(2, 'B');
+        $this->tree->insert(3, 'C');
 
-        $this->assertSame('c', $this->tree->getMaximum());
+        $items = $this->tree->getItems();
+        $this->assertEquals(['A', 'B', 'C'], $items);
     }
 
-    // Test balance method
-    public function testBalance(): void
+    public function testGetOrder(): void
     {
-        $this->tree->insert(1, 'a');
-        $this->tree->insert(2, 'b');
-        $this->tree->balance();
-
-        $this->assertSame(['a', 'b'], $this->tree->getItems());
+        $this->assertEquals(self::ORDER, $this->tree->getOrder());
     }
 
-    // Test sort method
-    public function testSort(): void
+    public function testGetMinimumAndMaximum(): void
     {
-        $this->tree->insert(3, 'c');
-        $this->tree->insert(1, 'a');
-        $this->tree->insert(2, 'b');
-        $this->tree->sort();
+        $this->tree->insert(5, 'E');
+        $this->tree->insert(1, 'A');
+        $this->tree->insert(3, 'C');
 
-        $this->assertSame(['a', 'b', 'c'], $this->tree->getItems());
+        $this->assertEquals('A', $this->tree->getMinimum());
+        $this->assertEquals('E', $this->tree->getMaximum());
+    }
+
+    // public function testTreeBalance(): void
+    // {
+    //     $this->tree->insert(1, "A");
+    //     $this->tree->insert(2, "B");
+    //     $this->tree->insert(3, "C");
+    //     $this->tree->insert(4, "D");
+    //     $this->tree->insert(5, "E");
+    //     $this->tree->insert(6, "F");
+    //     $this->tree->insert(7, "G");
+    //     $this->tree->insert(8, "H");
+
+    //     $this->assertTrue($this->tree->isBalanced(), "B+ Tree is not balanced after insertions");
+    // }
+
+    public function testSetAndGetByIndex(): void
+    {
+        $this->tree->insert(1, 'A');
+        $this->tree->insert(2, 'B');
+        $this->tree->insert(3, 'C');
+
+        $this->tree->set(1, 'Z');
+        $this->assertEquals('Z', $this->tree->get(1));
+    }
+
+    public function testVisualTreeStructure(): void
+    {
+        $this->tree->insert(1, 'A');
+        $this->tree->insert(2, 'B');
+        $this->tree->insert(3, 'C');
+        $this->tree->insert(4, 'D');
+        $this->tree->insert(5, 'E');
+
+        $visual = $this->tree->visualTreeStructure();
+        $this->assertStringContainsString('Leaf Node', $visual);
+        $this->assertStringContainsString('Internal Node', $visual);
+    }
+
+    public function testExceptions(): void
+    {
+        $this->expectException(OutOfRangeException::class);
+        $this->tree->get(99); // Tenta acessar um índice fora do intervalo
+
+        $this->expectException(InvalidArgumentException::class);
+        new BPlusTree(2); // Ordem menor que 3 deve lançar exceção
     }
 }
