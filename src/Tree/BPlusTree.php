@@ -47,9 +47,9 @@ class BPlusTree implements BPlusTreeCollection
         if ($order < 3) {
             throw new \InvalidArgumentException('Order must be at least 3');
         }
-        $this->searcher = new BPlusTreeSearcher();
         $this->order = $order;
-        $this->root = new BPlusTreeLeafNode($order);
+        $this->searcher = new BPlusTreeSearcher();
+        $this->root = null;
     }
 
     public function getRoot(): ?BPlusTreeNode
@@ -64,6 +64,10 @@ class BPlusTree implements BPlusTreeCollection
 
     public function insert(int $key, mixed $value): void
     {
+        if (null === $this->root) {
+            $this->root = new BPlusTreeLeafNode($this->order);
+        }
+
         $newRoot = $this->root->insert($key, $value);
         if ($newRoot !== $this->root) {
             $this->root = $newRoot;
@@ -83,6 +87,8 @@ class BPlusTree implements BPlusTreeCollection
             --$this->size;
             if ($this->root instanceof BPlusTreeInternalNode && 0 === count($this->root->keys)) {
                 $this->root = $this->root->children[0];
+            } elseif ($this->root instanceof BPlusTreeLeafNode && 0 === count($this->root->keys)) {
+                $this->root = null; // Set root to null when tree is empty
             }
         }
 
@@ -122,6 +128,10 @@ class BPlusTree implements BPlusTreeCollection
 
     public function set(int $key, mixed $value): void
     {
+        if (null === $this->root) {
+            throw new \OutOfRangeException('Key not found');
+        }
+
         $node = $this->root;
         while ($node instanceof BPlusTreeInternalNode) {
             $index = 0;
@@ -129,6 +139,10 @@ class BPlusTree implements BPlusTreeCollection
                 ++$index;
             }
             $node = $node->children[$index];
+        }
+
+        if (null === $node) {
+            throw new \OutOfRangeException('Key not found');
         }
 
         /** @var BPlusTreeLeafNode $node */
@@ -196,30 +210,35 @@ class BPlusTree implements BPlusTreeCollection
             return true;
         }
 
-        return false !== $this->checkBalance($this->root);
+        $leafDepth = null;
+
+        return $this->checkBalance($this->root, 0, $leafDepth);
     }
 
-    private function checkBalance(?BPlusTreeNode $node): int
+    private function checkBalance(?BPlusTreeNode $node, int $currentDepth = 0, ?int &$leafDepth = null): bool
     {
         if (null === $node) {
-            return 0;
+            return true;
         }
 
         if ($node instanceof BPlusTreeLeafNode) {
-            return 1;
+            if (null === $leafDepth) {
+                $leafDepth = $currentDepth;
+            } elseif ($currentDepth !== $leafDepth) {
+                return false;
+            }
+
+            return true;
         }
 
         /** @var BPlusTreeInternalNode $node */
-        $height = $this->checkBalance($node->children[0]);
-
-        for ($i = 1; $i < count($node->children); ++$i) {
-            $childHeight = $this->checkBalance($node->children[$i]);
-            if ($childHeight !== $height) {
-                throw new \RuntimeException('B+ Tree is not balanced');
+        foreach ($node->children as $child) {
+            if (! $this->checkBalance($child, $currentDepth + 1, $leafDepth)) {
+                return false;
             }
         }
 
-        return $height + 1;
+        return true;
     }
 
     public function sort(): void

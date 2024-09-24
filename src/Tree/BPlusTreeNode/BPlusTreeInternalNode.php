@@ -51,29 +51,26 @@ class BPlusTreeInternalNode extends BPlusTreeNode
 
     private function split(): BPlusTreeInternalNode
     {
-        $order = $this->order;
-        $middleKeyIndex = (int) (($order - 1) / 2);
+        $numKeys = count($this->keys);
+        $middleKeyIndex = intdiv($numKeys, 2);
         $middleKey = $this->keys[$middleKeyIndex];
 
-        // Create left and right nodes
-        $leftNode = new BPlusTreeInternalNode($order);
-        $rightNode = new BPlusTreeInternalNode($order);
+        $leftNode = new BPlusTreeInternalNode($this->order);
+        $rightNode = new BPlusTreeInternalNode($this->order);
 
-        // Left node keys and children
         $leftNode->keys = array_slice($this->keys, 0, $middleKeyIndex);
         $leftNode->children = array_slice($this->children, 0, $middleKeyIndex + 1);
 
-        // Right node keys and children
         $rightNode->keys = array_slice($this->keys, $middleKeyIndex + 1);
         $rightNode->children = array_slice($this->children, $middleKeyIndex + 1);
 
-        // Create a new parent node and promote the middle key
-        $parent = new BPlusTreeInternalNode($order);
+        $parent = new BPlusTreeInternalNode($this->order);
         $parent->keys = [$middleKey];
         $parent->children = [$leftNode, $rightNode];
 
         return $parent;
     }
+
 
     public function search(mixed $key): mixed
     {

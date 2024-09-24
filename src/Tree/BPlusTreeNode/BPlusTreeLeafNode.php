@@ -41,9 +41,9 @@ class BPlusTreeLeafNode extends BPlusTreeNode
 
     private function split(): BPlusTreeInternalNode
     {
-        $order = $this->order;
-        $middleIndex = (int) ($order / 2);
-        $newNode = new BPlusTreeLeafNode($order);
+        $numKeys = count($this->keys);
+        $middleIndex = intdiv($numKeys, 2);
+        $newNode = new BPlusTreeLeafNode($this->order);
 
         $newNode->keys = array_slice($this->keys, $middleIndex);
         $newNode->values = array_slice($this->values, $middleIndex);
@@ -54,7 +54,7 @@ class BPlusTreeLeafNode extends BPlusTreeNode
         $newNode->next = $this->next;
         $this->next = $newNode;
 
-        $parent = new BPlusTreeInternalNode($order);
+        $parent = new BPlusTreeInternalNode($this->order);
         $parent->keys = [$newNode->keys[0]];
         $parent->children = [$this, $newNode];
 
