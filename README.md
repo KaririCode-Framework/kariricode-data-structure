@@ -1,8 +1,4 @@
-Aqui está o README atualizado para o projeto **KaririCode\DataStructure**, com base na revisão das classes e estruturas de dados fornecidas:
-
----
-
-# KaririCode Framework: DataStructure Component
+# KaririCode Framework: Data Structure Component
 
 [![en](https://img.shields.io/badge/lang-en-red.svg)](README.md)
 [![pt-br](https://img.shields.io/badge/lang-pt--br-green.svg)](README.pt-br.md)
@@ -11,7 +7,7 @@ Aqui está o README atualizado para o projeto **KaririCode\DataStructure**, com 
 ![Composer](https://img.shields.io/badge/Composer-885630?style=for-the-badge&logo=composer&logoColor=white)
 ![Data Structures](https://img.shields.io/badge/Data_Structures-E74C3C?style=for-the-badge&logo=data-structures&logoColor=white)
 
-The **KaririCode DataStructure** component provides a collection of advanced data structures implemented in PHP, designed with strong typing and object-oriented principles. It includes implementations for various common structures like dynamic arrays, linked lists, heaps, queues, maps, sets, and stacks.
+The **KaririCode Data Structure** component provides a collection of advanced data structures implemented in PHP, designed with strong typing and object-oriented principles. It includes implementations for various common structures like dynamic arrays, linked lists, heaps, queues, maps, sets, and stacks.
 
 ## Features
 
