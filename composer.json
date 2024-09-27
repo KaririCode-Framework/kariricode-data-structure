@@ -1,6 +1,6 @@
 {
   "name": "kariricode/data-structure",
-  "description": "The KaririCode DataStructure component provides advanced data structures such as lists, stacks, queues, maps, and sets in PHP. It offers efficient implementations like ArrayList, LinkedList, BinaryHeap, and TreeMap, optimized for performance and designed with strong typing and object-oriented principles.",
+  "description": "The KaririCode DataStructure component offers advanced PHP data structures, including lists, stacks, queues, maps, and sets. It features efficient, strongly-typed, object-oriented implementations like ArrayList, LinkedList, BinaryHeap, and TreeMap.",
   "keywords": [
     "data structures",
     "php",

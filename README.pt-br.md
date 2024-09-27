@@ -1,4 +1,4 @@
-# KaririCode Framework: DataStructure Component
+# KaririCode Framework: Data Structure Component
 
 [![en](https://img.shields.io/badge/lang-en-red.svg)](README.md)
 [![pt-br](https://img.shields.io/badge/lang-pt--br-green.svg)](README.pt-br.md)
@@ -7,7 +7,7 @@
 ![Composer](https://img.shields.io/badge/Composer-885630?style=for-the-badge&logo=composer&logoColor=white)
 ![Estruturas de Dados](https://img.shields.io/badge/Estruturas_de_Dados-E74C3C?style=for-the-badge&logo=data-structures&logoColor=white)
 
-O **KaririCode DataStructure** é um componente que fornece uma coleção de estruturas de dados avançadas implementadas em PHP, com foco em tipagem forte e princípios de programação orientada a objetos. Ele inclui implementações de diversas estruturas comuns, como arrays dinâmicos, listas encadeadas, heaps, filas, mapas, conjuntos e pilhas.
+O **KaririCode Data Structure** é um componente que fornece uma coleção de estruturas de dados avançadas implementadas em PHP, com foco em tipagem forte e princípios de programação orientada a objetos. Ele inclui implementações de diversas estruturas comuns, como arrays dinâmicos, listas encadeadas, heaps, filas, mapas, conjuntos e pilhas.
 
 ## Funcionalidades
 
