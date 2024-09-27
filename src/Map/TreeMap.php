@@ -6,7 +6,7 @@ namespace KaririCode\DataStructure\Map;
 
 use KaririCode\Contract\DataStructure\Behavioral\IterableCollection;
 use KaririCode\Contract\DataStructure\Map;
-use KaririCode\DataStructure\TreeMapNode;
+use KaririCode\DataStructure\Tree\TreeMapNode;
 
 /**
  * TreeMap implementation.
@@ -206,7 +206,7 @@ class TreeMap implements Map, IterableCollection, \IteratorAggregate
                 }
             }
         }
-        $this->root->setBlack();
+        $this->root?->setBlack();
     }
 
     private function rotateLeft(TreeMapNode $node): void
