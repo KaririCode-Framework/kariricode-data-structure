@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace KaririCode\DataStructure\Tests\Map;
+namespace KaririCode\DataStructure\Tests\Tree;
 
-use KaririCode\DataStructure\TreeMapNode;
+use KaririCode\DataStructure\Tree\TreeMapNode;
 use PHPUnit\Framework\TestCase;
 
 final class TreeMapNodeTest extends TestCase

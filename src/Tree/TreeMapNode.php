@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace KaririCode\DataStructure;
+namespace KaririCode\DataStructure\Tree;
 
 /**
  * TreeMapNode class.
