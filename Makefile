@@ -1,5 +1,5 @@
 # Initial configurations
-PHP_SERVICE := kariricode-contract
+PHP_SERVICE := kariricode-data-structure
 DC := docker-compose
 
 # Command to execute commands inside the PHP container

@@ -117,29 +117,76 @@ class LinkedList implements Collection
         return $this->size;
     }
 
-    public function get(int $index): mixed
+    public function get(mixed $key): mixed
     {
-        if ($index < 0 || $index >= $this->size) {
-            throw new \OutOfRangeException("Index out of range: $index");
-        }
-        $current = $this->head;
-        for ($i = 0; $i < $index; ++$i) {
-            $current = $current->next;
+        $node = $this->findNode($key);
+        if (null === $node) {
+            throw new \OutOfRangeException('Element not found for key: ' . $this->keyToString($key));
         }
 
-        return $current->data;
+        return $node->data;
     }
 
-    public function set(int $index, mixed $element): void
+    public function set(mixed $key, mixed $element): void
+    {
+        $node = $this->findNode($key);
+        if (null === $node) {
+            throw new \OutOfRangeException('Element not found for key: ' . $this->keyToString($key));
+        }
+        $node->data = $element;
+    }
+
+    private function findNode(mixed $key): ?Node
+    {
+        if (is_int($key)) {
+            return $this->findNodeByIndex($key);
+        }
+
+        return $this->findNodeByValue($key);
+    }
+
+    private function findNodeByIndex(int $index): ?Node
     {
         if ($index < 0 || $index >= $this->size) {
-            throw new \OutOfRangeException("Index out of range: $index");
+            return null;
         }
         $current = $this->head;
         for ($i = 0; $i < $index; ++$i) {
             $current = $current->next;
         }
-        $current->data = $element;
+
+        return $current;
+    }
+
+    private function findNodeByValue(mixed $value): ?Node
+    {
+        $current = $this->head;
+        while (null !== $current) {
+            if ($this->compareValues($current->data, $value)) {
+                return $current;
+            }
+            $current = $current->next;
+        }
+
+        return null;
+    }
+
+    private function compareValues(mixed $a, mixed $b): bool
+    {
+        if (is_object($a) && is_object($b)) {
+            return $a == $b;
+        }
+
+        return $a === $b;
+    }
+
+    private function keyToString(mixed $key): string
+    {
+        if (is_object($key)) {
+            return get_class($key) . '@' . spl_object_id($key);
+        }
+
+        return (string) $key;
     }
 
     /**
