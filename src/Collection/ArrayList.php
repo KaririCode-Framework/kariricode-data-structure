@@ -6,19 +6,6 @@ namespace KaririCode\DataStructure\Collection;
 
 use KaririCode\Contract\DataStructure\Structural\Collection;
 
-/**
- * ArrayList implementation.
- *
- * This class implements a dynamic array using PHP's built-in array.
- * It provides O(1) time complexity for index-based access and amortized O(1) for adding elements.
- *
- * @category  Collections
- *
- * @author    Walmir Silva <walmir.silva@kariricode.org>
- * @license   MIT
- *
- * @see       https://kariricode.org/
- */
 class ArrayList implements Collection
 {
     private array $elements = [];
@@ -49,7 +36,7 @@ class ArrayList implements Collection
 
     public function contains(mixed $element): bool
     {
-        return null !== $this->find($element);
+        return in_array($element, $this->elements, true);
     }
 
     public function find(mixed $element): ?int
@@ -74,20 +61,42 @@ class ArrayList implements Collection
         return count($this->elements);
     }
 
-    public function get(int $index): mixed
+    public function get(mixed $key): mixed
     {
-        if ($index < 0 || $index >= count($this->elements)) {
-            throw new \OutOfRangeException("Index out of range: $index");
+        if (! $this->hasKey($key)) {
+            throw new \OutOfRangeException('Key not found: ' . $this->keyToString($key));
         }
 
-        return $this->elements[$index];
+        return $this->elements[$key];
     }
 
-    public function set(int $index, mixed $element): void
+    public function set(mixed $key, mixed $element): void
     {
-        if ($index < 0 || $index >= count($this->elements)) {
-            throw new \OutOfRangeException("Index out of range: $index");
+        if (! $this->isValidArrayKey($key)) {
+            throw new \InvalidArgumentException('Invalid key type: ' . gettype($key));
         }
-        $this->elements[$index] = $element;
+        if (! $this->hasKey($key)) {
+            throw new \OutOfRangeException('Key not found: ' . $this->keyToString($key));
+        }
+        $this->elements[$key] = $element;
+    }
+
+    private function hasKey(mixed $key): bool
+    {
+        return $this->isValidArrayKey($key) && array_key_exists($key, $this->elements);
+    }
+
+    private function isValidArrayKey(mixed $key): bool
+    {
+        return is_int($key) || is_string($key);
+    }
+
+    private function keyToString(mixed $key): string
+    {
+        if (is_object($key)) {
+            return get_class($key) . '@' . spl_object_id($key);
+        }
+
+        return (string) $key;
     }
 }
