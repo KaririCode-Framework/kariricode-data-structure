@@ -75,9 +75,9 @@ class ArrayList implements Collection
         if (! $this->isValidArrayKey($key)) {
             throw new \InvalidArgumentException('Invalid key type: ' . gettype($key));
         }
-        if (! $this->hasKey($key)) {
-            throw new \OutOfRangeException('Key not found: ' . $this->keyToString($key));
-        }
+        // if (! $this->hasKey($key)) {
+        //     throw new \OutOfRangeException('Key not found: ' . $this->keyToString($key));
+        // }
         $this->elements[$key] = $element;
     }
 
