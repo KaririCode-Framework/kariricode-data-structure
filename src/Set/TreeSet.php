@@ -19,8 +19,11 @@ use KaririCode\DataStructure\Map\TreeMap;
  * @license   MIT
  *
  * @see       https://kariricode.org/
+ *
+ * @implements \IteratorAggregate<int, mixed>
+ * @implements Set<mixed>
  */
-class TreeSet implements Set
+class TreeSet implements Set, \IteratorAggregate
 {
     private TreeMap $map;
 
@@ -59,10 +62,10 @@ class TreeSet implements Set
     public function union(Set $otherSet): TreeSet
     {
         $resultSet = new TreeSet();
-        foreach ($this->getItems() as $item) {
+        foreach ($this as $item) {
             $resultSet->add($item);
         }
-        foreach ($otherSet->getItems() as $item) {
+        foreach ($otherSet as $item) {
             $resultSet->add($item);
         }
 
@@ -72,7 +75,7 @@ class TreeSet implements Set
     public function intersection(Set $otherSet): TreeSet
     {
         $resultSet = new TreeSet();
-        foreach ($this->getItems() as $item) {
+        foreach ($this as $item) {
             if ($otherSet->contains($item)) {
                 $resultSet->add($item);
             }
@@ -84,7 +87,7 @@ class TreeSet implements Set
     public function difference(Set $otherSet): TreeSet
     {
         $resultSet = new TreeSet();
-        foreach ($this->getItems() as $item) {
+        foreach ($this as $item) {
             if (! $otherSet->contains($item)) {
                 $resultSet->add($item);
             }
@@ -98,11 +101,16 @@ class TreeSet implements Set
         return $this->contains($element) ? $element : null;
     }
 
+    public function getIterator(): \Traversable
+    {
+        return new \ArrayIterator($this->map->keys());
+    }
+
     public function getItems(): array
     {
         $elements = [];
-        foreach ($this->map as $key => $value) {
-            $elements[] = $key;
+        foreach ($this as $item) {
+            $elements[] = $item;
         }
 
         return $elements;

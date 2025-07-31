@@ -75,10 +75,11 @@ class BinaryHeap implements Heap, Countable
         }
 
         $lastElement = array_pop($this->heap);
+
         if ($index < $this->size()) {
             $this->heap[$index] = $lastElement;
-            $this->heapifyUp($index);
-            $this->heapifyDown($index);
+            $this->heapifyUp((int) $index);
+            $this->heapifyDown((int) $index);
         }
 
         return true;

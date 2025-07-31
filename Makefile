@@ -149,6 +149,28 @@ security-check: check-environment check-container-running
 	$(EXEC_PHP) ./vendor/bin/security-checker security:check
 	@echo "${GREEN}${CHECK_MARK} Security check completed!${NC}"
 
+## stan-src: Run PHPStan static analysis on src/
+stan-src: check-environment check-container-running
+	@echo "${GREEN}${INFO} Running PHPStan on src/...${NC}"
+	$(EXEC_PHP) ./vendor/bin/phpstan analyse src --memory-limit=1G --ansi
+	@echo "${GREEN}${CHECK_MARK} PHPStan (src/) analysis completed!${NC}"
+
+## stan-tests: Run PHPStan static analysis on tests/
+stan-tests: check-environment check-container-running
+	@echo "${GREEN}${INFO} Running PHPStan on tests/...${NC}"
+	$(EXEC_PHP) ./vendor/bin/phpstan analyse tests --memory-limit=1G --ansi
+	@echo "${GREEN}${CHECK_MARK} PHPStan (tests/) analysis completed!${NC}"
+
+## stan-file: Run PHPStan analysis on a specific file. Usage: make stan-file FILE=path/to/file.php
+stan-file: check-environment check-container-running
+	@if [ -z "$(FILE)" ]; then \
+		echo "${RED}${WARNING}  You must specify a file. Usage: make stan-file FILE=path/to/file.php${NC}"; \
+	else \
+		echo "${GREEN}${INFO} Running PHPStan on file: $(FILE)...${NC}"; \
+		$(EXEC_PHP) ./vendor/bin/phpstan analyse $(FILE) --memory-limit=1G --ansi; \
+		echo "${GREEN}${CHECK_MARK} PHPStan analysis completed for $(FILE)!${NC}"; \
+	fi
+
 ## quality: Run all quality commands
 quality: check-environment check-container-running cs-check test security-check 
 	@echo "${GREEN}${CHECK_MARK} All quality commands executed!${NC}"
@@ -171,4 +193,4 @@ help:
 	@echo "\n${GREEN}Available commands:${NC}"
 	@sed -n 's/^##//p' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ": "}; {printf "${YELLOW}%-30s${NC} %s\n", $$1, $$2}'
 
-.PHONY: setup-env up down build logs re-build shell composer-install composer-remove composer-update test test-file coverage coverage-html run-script cs-check cs-fix security-check quality help
+.PHONY: setup-env up down build logs re-build shell composer-install composer-remove composer-update test test-file coverage coverage-html run-script cs-check cs-fix security-check stan-src stan-tests stan-file quality help

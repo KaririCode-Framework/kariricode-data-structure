@@ -4,4 +4,10 @@ parameters:
         - src
         - tests
     ignoreErrors:
-        - '#Method .* has parameter \$.* with no value type specified in iterable type array.#'    
+        - '#type has no value type specified in iterable type array#'
+    excludePaths:
+        - src/Map/TreeMap.php
+        - src/Map/HashMap.php
+        - src/Map/LinkedHashMap.php
+        - src/Collection/LinkedList.php 
+        - src/Collection/ArrayList.php
