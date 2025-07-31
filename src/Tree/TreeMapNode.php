@@ -8,7 +8,8 @@ namespace KaririCode\DataStructure\Tree;
  * TreeMapNode class.
  *
  * This class represents a node in a Red-Black Tree used by TreeMap.
- * Each node contains a key, a value, a color (red or black), and references to its left, right, and parent nodes.
+ * Each node contains a key, a value, a color (red or black), and references
+ * to its left, right, and parent nodes.
  *
  * @category  Data Structures
  *

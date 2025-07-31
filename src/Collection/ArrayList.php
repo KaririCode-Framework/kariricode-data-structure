@@ -25,8 +25,13 @@ class ArrayList implements Collection
     public function remove(mixed $element): bool
     {
         $index = array_search($element, $this->elements, true);
+
         if (false !== $index) {
-            array_splice($this->elements, $index, 1);
+            if (is_int($index)) {
+                array_splice($this->elements, $index, 1);
+            } else {
+                unset($this->elements[$index]);
+            }
 
             return true;
         }
@@ -43,7 +48,7 @@ class ArrayList implements Collection
     {
         $index = array_search($element, $this->elements, true);
 
-        return false !== $index ? $index : null;
+        return is_int($index) ? $index : null;
     }
 
     public function getItems(): array
@@ -75,15 +80,21 @@ class ArrayList implements Collection
         if (! $this->isValidArrayKey($key)) {
             throw new \InvalidArgumentException('Invalid key type: ' . gettype($key));
         }
-        // if (! $this->hasKey($key)) {
-        //     throw new \OutOfRangeException('Key not found: ' . $this->keyToString($key));
-        // }
+
+        if (! $this->hasKey($key)) {
+            throw new \OutOfRangeException('Key not found: ' . $this->keyToString($key));
+        }
+
         $this->elements[$key] = $element;
     }
 
     private function hasKey(mixed $key): bool
     {
-        return $this->isValidArrayKey($key) && array_key_exists($key, $this->elements);
+        if (! is_int($key) && ! is_string($key)) {
+            return false;
+        }
+
+        return array_key_exists($key, $this->elements);
     }
 
     private function isValidArrayKey(mixed $key): bool
@@ -94,9 +105,26 @@ class ArrayList implements Collection
     private function keyToString(mixed $key): string
     {
         if (is_object($key)) {
+            // Check if the object can be converted to a string
+            if (method_exists($key, '__toString')) {
+                return (string) $key;
+            }
+
+            // Fallback for objects without a __toString method
             return get_class($key) . '@' . spl_object_id($key);
         }
 
+        if (is_array($key)) {
+            return 'Array';
+        }
+
+        if (is_resource($key)) {
+            // Returns a safe string representation for resources
+            return get_resource_type($key) . ' #' . (int) $key;
+        }
+
+        // Now that objects, arrays, and resources are handled,
+        // the remaining types (scalar and null) can be safely cast to string.
         return (string) $key;
     }
 }

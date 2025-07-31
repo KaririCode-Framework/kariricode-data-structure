@@ -28,13 +28,19 @@ class TreeMap implements Map, IterableCollection, \IteratorAggregate
 
     public function put(mixed $key, mixed $value): void
     {
-        $newNode = new TreeMapNode($key, $value);
         if (null === $this->root) {
-            $this->root = $newNode;
+            $this->root = new TreeMapNode($key, $value);
             $this->root->setBlack();
             ++$this->size;
-        } else {
-            $this->insertNode($newNode);
+
+            return;
+        }
+
+        $newNode = $this->insertNode($this->root, $key, $value);
+
+        // If insertNode returned a new node, it means the insertion occurred.
+        if (null !== $newNode) {
+            ++$this->size;
             $this->balanceAfterInsertion($newNode);
         }
     }
@@ -128,33 +134,33 @@ class TreeMap implements Map, IterableCollection, \IteratorAggregate
         }
     }
 
-    private function insertNode(TreeMapNode $newNode): void
+    private function insertNode(TreeMapNode $root, mixed $key, mixed $value): ?TreeMapNode
     {
-        $current = $this->root;
-        $parent = null;
+        $current = $root;
         while (null !== $current) {
             $parent = $current;
-            if ($newNode->key < $current->key) {
+            if ($key < $current->key) {
                 $current = $current->left;
-            } elseif ($newNode->key > $current->key) {
+            } elseif ($key > $current->key) {
                 $current = $current->right;
             } else {
-                // Key already exists, update the value
-                $current->value = $newNode->value;
+                // Key already exists, just update the value and do not insert a new node.
+                $current->value = $value;
 
-                return;
+                return null; // Return null to indicate that no node was inserted.
             }
         }
 
+        $newNode = new TreeMapNode($key, $value);
         $newNode->parent = $parent;
-        if ($newNode->key < $parent->key) {
+
+        if ($key < $parent->key) {
             $parent->left = $newNode;
         } else {
             $parent->right = $newNode;
         }
 
-        ++$this->size;
-        $this->balanceAfterInsertion($newNode);
+        return $newNode; // Return the newly created node.
     }
 
     private function balanceAfterInsertion(TreeMapNode $node): void
@@ -213,9 +219,7 @@ class TreeMap implements Map, IterableCollection, \IteratorAggregate
     {
         $rightChild = $node->right;
         $node->setRight($rightChild->left);
-        if (null !== $rightChild->left) {
-            $rightChild->left->parent = $node;
-        }
+
         $rightChild->parent = $node->parent;
         if (null === $node->parent) {
             $this->root = $rightChild;
@@ -232,9 +236,7 @@ class TreeMap implements Map, IterableCollection, \IteratorAggregate
     {
         $leftChild = $node->left;
         $node->setLeft($leftChild->right);
-        if (null !== $leftChild->right) {
-            $leftChild->right->parent = $node;
-        }
+
         $leftChild->parent = $node->parent;
         if (null === $node->parent) {
             $this->root = $leftChild;
